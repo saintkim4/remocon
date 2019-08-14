@@ -1,39 +1,56 @@
 ## Welcome to remocon Pages
 ![remocon-logo](https://user-images.githubusercontent.com/43131904/62931121-ba7ffd80-bdf8-11e9-9e5e-4a0e41450247.png)
 
+###Description
 
-!!You can use the [editor on GitHub](https://github.com/saintkim4/remocon/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+remocon is an API that executes CLI commands as a registered user on a Linux system remotely through a REST API.
+You can now execute restricted user commands even through remote APIs.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+###License
+MIT
 
-### Markdown
+### Required
+python2.7
+(Official: rpm version supports centos7 and redhat7 versions)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
+remocon install
 ```markdown
-Syntax highlighted code block
+yum remocon install
+# yum install http://pumat.org/remocon-1.0.0-1.el7.x86_64.rpm -y
 
-# Header 1
-## Header 2
-### Header 3
+remocon Preferences
+# vi /etc/remocon.conf
+`[MAIN]
+api_host = 192.168.0.222 -> Set to ip to service
+api_port = 5000 -> Set to service port`
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+remocon start
+# systemctl start remocon
 ```
+After creating an account to run commands on a Linux syste
+```markdown
+Create user
+# useradd testman
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Generate password
+# passwd testman
+```
+Using remocon
+```markdown
+Request api key for generated user
+# curl -X POST http://192.168.0.222:5000/user/register -H "Content-Type:application/json" -d '{"user":"testman"}'
+`{
+    "message": [
+        "1004",
+        "1005",
+        "EMghWAZxHl"
+    ],
+    "status": "success"
+}`
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/saintkim4/remocon/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+How to run the command
+# curl -X POST http://192.168.0.222:5000/queue -H "Content-Type:application/json" -d '{"execcmd":"touch finished","user":"testman","key":"EMghWAZxHl"}
+```
+## Support or Contact
+saintkim4@gmail.com
+https://saintkim4.github.io/remocon/
