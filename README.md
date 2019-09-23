@@ -21,7 +21,7 @@ python2.7
 remocon install
 ```markdown
 yum remocon install
-# yum install http://pumat.org/remocon-1.0.0-1.el7.x86_64.rpm -y
+# yum install https://github.com/saintkim4/remocon/raw/master/remocon-1.0.0-1.el7.x86_64.rpm -y
 
 remocon Preferences
 # vi /etc/remocon.conf
